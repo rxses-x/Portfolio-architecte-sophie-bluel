@@ -88,6 +88,7 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
+	cursor: pointer;
 
 }
 nav li {
@@ -95,9 +96,19 @@ nav li {
 	font-size: 1.2em;
 }
 
+nav li a {
+	text-decoration-line: none;
+ 	color: black;
+}
+
+nav li a span {
+	font-weight: 600;
+}
+
 li:hover {
 	color: #B1663C;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -125,6 +136,41 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.filters {
+	display: flex;
+	justify-content: center;
+	margin: 51px 0;
+}
+
+.filters button {
+	padding: 9px 30px;
+	margin-right: 10px;
+	border-radius: 60px;
+	font-family: Syne;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 19.2px;
+	text-align: center;
+	color: #1D6154;
+	border: 1px solid #1D6154;
+	background: white;
+	cursor: pointer;
+
+}
+
+.filters .category-btn {
+	color: #1D6154;
+	margin-left: 8px;
+}
+
+.filters .active {
+    color: #FFFFFF;
+    background: #1D6154;
+    border: 1px solid #1D6154;
+}
+
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -165,6 +211,45 @@ margin: auto;
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+/* login page */
+
+#login {
+	width: 50%;
+	margin: 150px auto;
+}
+#login > * {
+	text-align: center;
+
+}
+#login h2{
+	margin-bottom: 20px;
+}
+#login form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#login form a {
+	color: #3D3D3D;
+	text-align: center;
+}
+
+#login input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#login label {
+	margin: 2em 0 1em 0;
+}
+#login textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }

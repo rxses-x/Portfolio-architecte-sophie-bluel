@@ -51,6 +51,31 @@ async function initializeGallery(category = null) {
     updateGallery(galleryData, category);
 }
 
+
+function loadAdminTools() {
+
+}
+
+function updateNavMenu() {
+    const token = sessionStorage.getItem("Token");
+    const navLoginLink = document.querySelector('nav ul li a[href="./login.html"]');
+    
+    if (token && navLoginLink) {
+        navLoginLink.innerHTML = "logout"
+        loadAdminTools()
+
+        navLoginLink.addEventListener("click", function() {
+            navLoginLink.innerHTML = "login";
+            navLoginLink.href = "./index.html";
+            sessionStorage.removeItem("Token"); // Clear the token on logout
+        })
+    } else {
+        navLoginLink.innerHTML = "login";
+        navLoginLink.href = "./login.html";
+    }
+}
+
 // Initialize the application
 initializeFilters();
 initializeGallery();
+updateNavMenu();
