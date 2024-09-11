@@ -219,7 +219,6 @@ li:hover {
 
 .banner-edit i {
 	margin-right: 10px;
-	cursor: pointer;
 }
 
 .edit-text {
@@ -229,7 +228,6 @@ li:hover {
 	line-height: 18.77px;
 	margin-left: 12px;
 	text-align: center;
-	cursor: pointer;
 }
 
 /* modal */
