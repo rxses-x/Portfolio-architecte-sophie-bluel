@@ -186,11 +186,11 @@ async function updateModal(data, token) {
     const addPhotoButton = document.createElement('button');
     addPhotoButton.className = 'add-photo-button';
     addPhotoButton.textContent = 'Ajouter une photo';
-    // addPhotoButton.addEventListener('click', () => {
-    //     initializeModal(true)
-    //     modal.style.display = 'none';
-    //     // Logic for adding a photo goes here
-    // });
+    addPhotoButton.addEventListener('click', () => {
+        initializeModal(true)
+        modal.style.display = 'none';
+        // Logic for adding a photo goes here
+    });
 
     // Append all elements to the modal container
     modalContainer.appendChild(closeModal);
@@ -586,10 +586,11 @@ export async function initializeModal(bool) {
     const token = sessionStorage.getItem("Token");
     const galleryData = await fetchData('works');
     const categoryData = await fetchData('categories');
-    updateModal(galleryData, token);
-    // if (bool) {
-    //     createAddModal(categoryData, token)
-    // }
+    if (bool) {
+        createAddModal(categoryData, token)
+    } else {
+        updateModal(galleryData, token);
+    }
 }
 
 // // Function to create the modal structure
