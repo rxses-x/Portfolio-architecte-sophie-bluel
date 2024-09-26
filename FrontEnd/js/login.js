@@ -1,36 +1,50 @@
-const api = "http://localhost:5678/api/users/login";
-
-async function fetchData(url, options = {}) {
-    const response = await fetch(url, options);
-    return response;
-}
+import { fetchData } from "./tools.js"
 
 async function useLogin() {
     const formLogin = document.querySelector("form");
+    const errorLogin = document.getElementById("error-message");
     formLogin.addEventListener("submit", async function(event) {
         event.preventDefault(); // Prevent the default form submission
-
         const login = {
-            email: document.querySelector("[name='email']").value,
-            password: document.querySelector("[name='password']").value
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value
         };
 
-        const responseLogin = await fetchData(api, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(login),
+        document.getElementById("password").addEventListener('input', () => {
+            if (errorLogin.style.display === "block") {
+                errorLogin.style.display = 'none';
+            }
         });
 
-        const response = await responseLogin.json();
-        const responseToken = response.token;
-        const responseState = responseLogin.ok;
+        document.getElementById("email").addEventListener('input', () => {
+            if (errorLogin.style.display === "block") {
+                errorLogin.style.display = 'none';
+            }
+        });
 
-        if (responseState) {
-            sessionStorage.setItem("Token", responseToken);
-            window.location.replace("index.html");
-        } else {
-            window.alert("Erreur dans l’identifiant ou le mot de passe");
-            window.location.replace("login.html");
+        try {
+            const responseLogin = await fetchData('users/login', {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(login),
+            })
+            const response = await responseLogin.json();
+            
+            if (response) {
+                const responseState = responseLogin.ok;
+        
+                if (responseState) {
+                    errorLogin.style.display = "none"
+                    sessionStorage.setItem("Token", response.token);
+                    window.location.replace("index.html");
+                } else {
+                    errorLogin.style.display = "block"
+                    errorLogin.textContent = "Erreur dans l’identifiant ou le mot de passe"
+                    console.error("Erreur dans l’identifiant ou le mot de passe")
+                }
+            }
+        } catch (error) {
+            console.error("An error occurred", error);
         }
     });
 }
