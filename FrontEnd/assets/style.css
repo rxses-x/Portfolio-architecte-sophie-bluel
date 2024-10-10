@@ -84,7 +84,7 @@ time,
 mark,
 audio,
 video {
-	margin: 0;
+	margin: 0px;
 	padding: 0;
 	border: 0;
 	font-size: 100%;
@@ -232,68 +232,6 @@ li:hover {
 
 /* modal */
 
-/* #modal {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background: #0000004D;
-} */
-
-/* .modal {
-	position: absolute;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.modal-container {
-	display: flex;
-	justify-content: center;
-	border-radius: 10px;
-	display: flex;
-	background: #FFFFFF;
-	width: 630px;
-	height: 688px;
-}
-
-.close-modal {
-	margin: 26px 0px 0px 560px;
-	position: absolute;
-	font-size: 24px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.modal-title {
-	padding: 60px 0px 0px 0px;
-	font-family: Work Sans;
-	font-size: 26px;
-	font-weight: 400;
-	line-height: 30.5px;
-	text-align: center;
-
-}
-
-.modal-image {
-	display: flex;
-}
-
-.modal-image div {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 5, 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
-	background: pink;
-}
-
-.modal-container img {
-	width: 100%;
-} */
-
 .modal {
 	display: none;
 	position: fixed;
@@ -371,7 +309,7 @@ li:hover {
 .add-photo-button {
 	display: block;
 	margin: auto;
-	background: #1D6154;
+	color: #306685;
 	color: white;
 	border: none;
 	padding: 10px 49px;
@@ -389,55 +327,79 @@ li:hover {
 
 /* Styles for the upload area */
 .upload-area {
-    width: 100%;
-    background-color: #EAF1F6; /* Light blue background */
-    border-radius: 10px;
-    text-align: center;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+	height: 169px;
+	width: 100%;
+	background-color: #EAF1F6; /* Light blue background */
+	border-radius: 10px;
+	text-align: center;
+	margin-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* justify-content: center; */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
 }
 
 /* Placeholder image */
 .img-placeholder {
-    width: 100px;
-    height: 100px;
+    /* width: 100px; */
+    /* height: 100px; */
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-bottom: 15px;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .img-placeholder i {
+    margin: 11px;
     font-size: 80px; /* Adjust size of the icon */
     color: #C0CCD9; /* Light grayish blue */
 }
 
-/* Upload button
-.add-photo-button {
+.image-preview {
+    display: none;
+    width: 129px;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+}
+
+/* Upload button */
+.add-photo-button2 {
 	background: #CBD6DC;
-    border: none;
-    color: #306685;
-    padding: 10px 33px;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+	border: none;
+	color: #306685;
+	padding: 10px 33px;
+	border-radius: 20px;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	font-family: Work Sans;
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 16.42px;
 	text-align: center;
 	margin-bottom: 7px;
+}
 
-} */
+.add-photo-button {
+	display: block;
+	margin: auto;
+	background: #1D6154;
+	color: white;
+	border: none;
+	padding: 10px 33px;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	font-family: 'Syne';
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 16.8px;
+	text-align: center;
+}
 
-.add-photo-button:hover {
+.add-photo-button2:hover {
     background-color: #AABBC9; /* Darken the button on hover */
 }
 
@@ -450,15 +412,6 @@ li:hover {
 	text-align: center;
 	color: #444444;
 	margin-bottom: 19px;
-}
-
-.upload-area {
-	width: 100%;
-	background: #E8F1F6;
-	/* height: 169px; */
-	border-radius: 10px;
-	text-align: center;
-	margin-bottom: 20px;
 }
 
 .form-label {
@@ -486,21 +439,26 @@ li:hover {
 
 }
 
-.add-new-photo-button {
+.validate-button {
 	display: block;
 	margin: auto;
-	background: #1D6154;
 	color: white;
 	border: none;
 	padding: 12px 99px;
 	border-radius: 20px;
-	cursor: pointer;
+	cursor: initial;
+	background: #585b5b;
 	transition: background-color 0.3s;
 	font-family: 'Syne';
 	font-size: 14px;
 	font-weight: 700;
 	line-height: 16.8px;
 	text-align: center;
+}
+
+.validate-button .enabled {
+	cursor: pointer;
+	background: #1D6154;
 }
 
 #introduction {

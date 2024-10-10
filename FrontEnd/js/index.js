@@ -45,6 +45,7 @@ async function updateGallery(data, category = null) {
  * @returns {HTMLElement} - A figure element containing an image and a caption.
  */
 function createGalleryItem(gallery) {
+    console.log("gallery", gallery)
     // Create figure element
     const figure = document.createElement('figure');
 
@@ -146,6 +147,7 @@ function handleFilterClick(event) {
  */
 async function initializeGallery(category = null) {
     try {
+        console.log('initializing gallery:');
         const galleryData = await fetchData('works');
         updateGallery(galleryData, category);
     } catch (error) {
