@@ -239,10 +239,19 @@ li:hover {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
 	justify-content: center;
 	align-items: center;
-	z-index: 1000;
+}
+
+.modal-background {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	align-items: center;
 }
 
 .modal-container {
@@ -252,6 +261,7 @@ li:hover {
 	max-width: 630px;
 	width: 100%;
 	position: relative;
+	z-index: 1000;
 }
 
 .close-modal {
@@ -340,10 +350,16 @@ li:hover {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
 }
 
+.previous-modal {
+	font-size: 20px;
+	position: absolute;
+	top: 32px;
+	left: 32px;
+	cursor: pointer;
+}
+
 /* Placeholder image */
 .img-placeholder {
-    /* width: 100px; */
-    /* height: 100px; */
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -358,6 +374,7 @@ li:hover {
 
 .image-preview {
     display: none;
+	max-width: 100%;
     width: 129px;
     height: 100%;
     object-fit: cover; /* Maintain aspect ratio and cover the container */
@@ -432,7 +449,6 @@ li:hover {
 	height: 51px;
     padding: 10px;
 	border: none;
-    /* border-radius: 5px; */
     margin-bottom: 20px;
     box-sizing: border-box;
 	box-shadow: 0px 4px 14px 0px #00000017;
@@ -456,7 +472,7 @@ li:hover {
 	text-align: center;
 }
 
-.validate-button .enabled {
+.modal-container > .enabled {
 	cursor: pointer;
 	background: #1D6154;
 }

@@ -6,13 +6,11 @@ import { fetchData } from "./tools.js"
  * @param {Response} data - The response object containing gallery data.
  * @param {number|null} category - The category ID to filter the gallery items by (optional).
  */
-async function updateGallery(data, category = null) {
+export async function updateGallery(data, category = null) {
     const galleryContainer = document.querySelector(".gallery");
 
-    // If gallery container doesn't exist, exit the function
     if (!galleryContainer) return;
 
-    // Clear the gallery before adding new elements
     galleryContainer.innerHTML = '';
 
     try {
@@ -25,16 +23,13 @@ async function updateGallery(data, category = null) {
         // Use DocumentFragment to batch DOM updates for better performance
         const fragment = document.createDocumentFragment();
 
-        // Create and append each gallery item to the fragment
         filteredGallery.forEach(gallery => {
             const figure = createGalleryItem(gallery);
             fragment.appendChild(figure);
         });
 
-        // Append the entire fragment to the gallery container
         galleryContainer.appendChild(fragment);
     } catch (error) {
-        // Log any error that occurs during the process
         console.error('Error updating gallery:', error);
     }
 }
@@ -45,20 +40,16 @@ async function updateGallery(data, category = null) {
  * @returns {HTMLElement} - A figure element containing an image and a caption.
  */
 function createGalleryItem(gallery) {
-    console.log("gallery", gallery)
-    // Create figure element
     const figure = document.createElement('figure');
 
-    // Create img element
     const img = document.createElement('img');
     img.src = gallery.imageUrl;
     img.alt = gallery.title;
+    img.setAttribute("img-id", gallery.id); // Store image ID in attribute
 
-    // Create figcaption element
     const figcaption = document.createElement('figcaption');
     figcaption.textContent = gallery.title;
 
-    // Append img and figcaption to figure
     figure.appendChild(img);
     figure.appendChild(figcaption);
 
@@ -70,34 +61,26 @@ function createGalleryItem(gallery) {
  */
 async function initializeFilters() {
     try {
-        // Fetch category data from the API
         const categories = await fetchData('categories');
         const categoriesData = await categories.json(); // Parse the JSON data
 
-        // Select the filters container from the DOM
         const filtersContainer = document.querySelector(".filters");
 
-        // Check if the filters container exists
         if (!filtersContainer) return;
 
-        // Clear existing filters
         filtersContainer.innerHTML = '';
 
-        // Create a DocumentFragment to batch DOM updates
         const fragment = document.createDocumentFragment();
 
         // Add "Tous" button (show all)
         fragment.appendChild(createFilterButton('Tous', 'null', true));
 
-        // Add category buttons
         categoriesData.forEach(category => {
             fragment.appendChild(createFilterButton(category.name, category.id));
         });
 
-        // Append all buttons to the filters container at once
         filtersContainer.appendChild(fragment);
 
-        // Add event listener for filter buttons
         filtersContainer.addEventListener("click", handleFilterClick);
     } catch (error) {
         console.error('Error initializing filters:', error);
@@ -136,7 +119,6 @@ function handleFilterClick(event) {
         // Get the category ID from the clicked button
         const categoryId = event.target.dataset.id === "null" ? null : event.target.dataset.id;
 
-        // Call the function to load gallery items based on the selected category
         initializeGallery(categoryId);
     }
 }
@@ -147,7 +129,6 @@ function handleFilterClick(event) {
  */
 async function initializeGallery(category = null) {
     try {
-        console.log('initializing gallery:');
         const galleryData = await fetchData('works');
         updateGallery(galleryData, category);
     } catch (error) {
@@ -165,18 +146,16 @@ function updateNavMenu() {
 
     if (!navLoginLink) return;
 
-    // If token exists, show 'logout' and handle logout behavior
     if (token) {
         navLoginLink.innerHTML = "logout";
         navLoginLink.href = "#";
 
         navLoginLink.addEventListener("click", function () {
-            sessionStorage.removeItem("Token"); // Clear the token on logout
+            sessionStorage.removeItem("Token");
             navLoginLink.innerHTML = "login";
-            navLoginLink.href = "./index.html"; // Redirect to the home page
+            navLoginLink.href = "./index.html";
         });
     } else {
-        // If no token, show 'login'
         navLoginLink.innerHTML = "login";
         navLoginLink.href = "./login.html";
     }
@@ -197,7 +176,6 @@ function updatePageForLoggedInUser() {
     if (!header || !filters || !portfolio || !editBar || !editPortfolioButton) return;
 
     if (token) {
-        // Show edit options and modify the layout for logged-in users
         editBar.style.display = 'flex';
         header.style.marginTop = '88px';
         filters.style.display = "none";
@@ -207,7 +185,6 @@ function updatePageForLoggedInUser() {
             initializeModal()
         } );
     } else {
-        // Hide the edit bar if not logged in
         editBar.style.display = 'none';
     }
 }
