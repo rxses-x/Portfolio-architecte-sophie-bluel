@@ -8,29 +8,27 @@ import { fetchData } from "./tools.js"
  * begins typing in the input fields again.
  */
 async function useLogin() {
-    // Select the login form element and error message element
     const formLogin = document.querySelector("form");
     const errorLogin = document.getElementById("error-message");
 
-    // Add an event listener for form submission
     formLogin.addEventListener("submit", async function(event) {
-        event.preventDefault(); // Prevent default form submission behavior
+        event.preventDefault();
 
-        // Gather login details from the form inputs
+        const email = document.getElementById("email")
+        const password = document.getElementById("password")
+
         const login = {
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value
+            email: email.value,
+            password: password.value
         };
 
-        // Hide error message when the user starts typing in the password field
-        document.getElementById("password").addEventListener('input', () => {
+        email.addEventListener('input', () => {
             if (errorLogin.style.display === "block") {
                 errorLogin.style.display = 'none';
             }
         });
 
-        // Hide error message when the user starts typing in the email field
-        document.getElementById("email").addEventListener('input', () => {
+        password.addEventListener('input', () => {
             if (errorLogin.style.display === "block") {
                 errorLogin.style.display = 'none';
             }
@@ -44,30 +42,24 @@ async function useLogin() {
                 body: JSON.stringify(login),
             });
 
-            const response = await responseLogin.json(); // Parse the response
+            const response = await responseLogin.json();
 
             if (response) {
-                // Check if the login response is successful (status OK)
                 const responseState = responseLogin.ok;
 
                 if (responseState) {
-                    // If login is successful, hide the error message
                     errorLogin.style.display = "none";
 
-                    // Store the token in sessionStorage
                     sessionStorage.setItem("Token", response.token);
 
-                    // Redirect to the homepage
                     window.location.replace("index.html");
                 } else {
-                    // If login fails, display an error message
                     errorLogin.style.display = "block";
                     errorLogin.textContent = "Erreur dans l’identifiant ou le mot de passe";
                     console.error("Erreur dans l’identifiant ou le mot de passe");
                 }
             }
         } catch (error) {
-            // Handle any errors that occur during the fetch or login process
             console.error("An error occurred", error);
         }
     });
