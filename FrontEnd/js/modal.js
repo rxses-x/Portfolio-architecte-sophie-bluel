@@ -1,5 +1,4 @@
 import { fetchData } from "./tools.js"
-import { updateGallery } from "./index.js"
 
 let fileData = []
 
@@ -20,6 +19,7 @@ async function updateModal(data, token) {
         document.body.appendChild(modal);
     } else {
         modal.innerHTML = '';
+        modal.style.display = 'flex';
     }
 
     const modalContainer = document.createElement('div');
@@ -49,28 +49,24 @@ async function updateModal(data, token) {
 
     const imageData = await data.json();
 
-    // Loop through the image data and create image elements with delete buttons
     imageData.forEach(image => {
-        // Create the image container
         const imageContainer = document.createElement('div');
         imageContainer.className = 'image-container';
 
-        // Create the img element
         const img = document.createElement('img');
-        img.src = image.imageUrl; // Set the image URL
-        img.alt = image.title; // Set the alt text
-        img.setAttribute("img-id", image.id); // Store image ID in attribute
+        img.src = image.imageUrl;
+        img.alt = image.title;
+        img.setAttribute("img-id", image.id);
 
-        // Create the delete button
         const deleteButton = document.createElement('button');
         deleteButton.type = "button";
-        deleteButton.setAttribute("img-id", image.id); // Store image ID in attribute
+        deleteButton.setAttribute("img-id", image.id);
         deleteButton.className = 'delete-button';
         deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>';
 
         // Add click event listener for delete button
         deleteButton.addEventListener('click', async (event) => {
-            event.preventDefault(); // Prevent default button behavior
+            event.preventDefault();
 
             // Get the image ID from the button attribute
             const imgId = event.currentTarget.getAttribute('img-id');
@@ -95,25 +91,20 @@ async function updateModal(data, token) {
             }
         });
 
-        // Append img and delete button to the image container
         imageContainer.appendChild(img);
         imageContainer.appendChild(deleteButton);
 
-        // Append the image container to the image grid
         imageGrid.appendChild(imageContainer);
     });
 
-    // Create separator line
     const separatorLine = document.createElement('hr');
     separatorLine.className = 'separator-line';
 
-    // Create the "Add Photo" button
     const addPhotoButton = document.createElement('button');
     addPhotoButton.className = 'add-photo-button';
     addPhotoButton.textContent = 'Ajouter une photo';
     addPhotoButton.addEventListener('click', () => {
         initializeModal(true);
-        modal.style.display = 'none';
         modal.remove()
     });
 
@@ -125,24 +116,28 @@ async function updateModal(data, token) {
 
     modal.appendChild(modalContainer);
     modal.appendChild(modalBackground);
-
-    modal.style.display = 'flex'; // Show the modal
 }
 
-// Function to delete an image from the gallery
+/**
+ * Deletes a gallery item from the DOM based on the provided image ID.
+ *
+ * @param {string} imageId - The ID of the image to be deleted. 
+ *                           This should match the value of the `img-id` attribute
+ *                           on the image element within the gallery.
+ *
+ * The function searches for the image element with the corresponding `img-id`
+ * attribute and removes its parent `<figure>` element from the gallery container.
+ * If the image is not found, an error message is logged to the console.
+ */
 function deleteGalleryItem(imageId) {
-    // Select the gallery container (replace 'galleryContainer' with your actual container ID/class)
     const galleryContainer = document.querySelector('.gallery');
 
     // Find the image element by img-id attribute
     const imgToDelete = galleryContainer.querySelector(`img[img-id="${imageId}"]`);
 
-    // Check if the image exists
     if (imgToDelete) {
-        // Find the figure element that contains the img
         const figureToDelete = imgToDelete.closest('figure');
         
-        // Remove the figure from the gallery
         galleryContainer.removeChild(figureToDelete);
     } else {
         console.error('Image not found');
@@ -164,12 +159,10 @@ async function createAddModal(data, token) {
         addPhotoModal.className = 'modal';
         addPhotoModal.style.display = 'flex';
 
-        // Append the modal to the document body
         document.body.appendChild(addPhotoModal);
     } else {
-        // If the modal exists, clear its current content
         addPhotoModal.innerHTML = '';
-        addPhotoModal.style.display = 'flex'; // Show the modal
+        addPhotoModal.style.display = 'flex';
     }
 
     const addPhotoModalContainer = document.createElement('div');
@@ -197,50 +190,42 @@ async function createAddModal(data, token) {
         initializeModal()
     });
 
-    // Create the title for the modal
     const modalTitle = document.createElement('span');
     modalTitle.textContent = 'Ajout photo';
     modalTitle.className = 'modal-title';
 
-    // Create the image placeholder
     const uploadArea = document.createElement('div');
     uploadArea.className = 'upload-area';
 
-    // Image icon placeholder
     const imgPlaceholder = document.createElement('div');
     imgPlaceholder.className = 'img-placeholder';
 
     uploadArea.appendChild(imgPlaceholder);
 
-    // If you want an icon as a fallback (like in your example)
     const iconElement = document.createElement('span');
     iconElement.innerHTML = '<i class="fa-regular fa-image"></i>';
     imgPlaceholder.appendChild(iconElement);
 
-    // If you want an icon as a fallback (like in your example)
     const imageContainer = document.createElement('img');
     imageContainer.id = "image-preview"
     imageContainer.className = "image-preview"
     imageContainer.style.display = false
     uploadArea.appendChild(imageContainer);
 
-    // Create upload button (inside the upload area)
     const uploadButton = document.createElement('button');
     uploadButton.className = 'add-photo-button2';
     uploadButton.textContent = '+ Ajouter photo';
     uploadButton.classList.add("background-blue")
 
-    // File input for the photo
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = 'image/jpeg, image/png';
-    fileInput.style.display = 'none'; // Hidden input field
+    fileInput.style.display = 'none';
 
     uploadButton.addEventListener('click', () => {
         fileInput.click(); // Trigger file input when button is clicked
     });
 
-    // Add file input to the DOM (hidden)
     imgPlaceholder.appendChild(uploadButton);
     imgPlaceholder.appendChild(fileInput);
 
@@ -250,7 +235,6 @@ async function createAddModal(data, token) {
     instructions.className = 'upload-instructions';
     imgPlaceholder.appendChild(instructions);
 
-    // Create the 'Titre' field
     const titleLabel = document.createElement('label');
     titleLabel.textContent = 'Titre';
     titleLabel.className = 'form-label';
@@ -260,17 +244,14 @@ async function createAddModal(data, token) {
     titleInput.placeholder = 'Entrez un titre';
     titleInput.className = 'form-input';
 
-    titleInput.addEventListener('input', updateSubmitButtonState); // Update button state on input
+    titleInput.addEventListener('input', updateSubmitButtonState);
 
-    // Create the 'Catégorie' field
     const categoryLabel = document.createElement('label');
     categoryLabel.textContent = 'Catégorie';
     categoryLabel.className = 'form-label';
 
     const categorySelect = document.createElement('select');
     categorySelect.className = 'form-select';
-
-    // Add categories as options
 
     const categoriesData = await data.json()
 
@@ -281,11 +262,10 @@ async function createAddModal(data, token) {
         
         categorySelect.appendChild(category)
     })
-    // Create the separator line
+
     const separatorLine = document.createElement('hr');
     separatorLine.className = 'separator-line';
 
-    // Create the 'Valider' button
     const submitButton = document.createElement('button');
     submitButton.className = 'validate-button';
     submitButton.textContent = 'Valider';
@@ -297,11 +277,11 @@ async function createAddModal(data, token) {
         const isFileSelected = fileData.length > 0; // Check if any files are selected
 
         if (isTitleNotEmpty && isFileSelected) {
-            submitButton.classList.add('enabled'); // Add the 'enabled' class
-            submitButton.disabled = false; // Enable the button
+            submitButton.classList.add('enabled');
+            submitButton.disabled = false;
         } else {
-            submitButton.classList.remove('enabled'); // Remove the 'enabled' class
-            submitButton.disabled = true; // Disable the button
+            submitButton.classList.remove('enabled');
+            submitButton.disabled = true;
         }
     }
 
@@ -325,7 +305,7 @@ async function createAddModal(data, token) {
                 fileData.push(file);
                 imageContainer.style.display = 'block';
                 imageContainer.src = e.target.result; // Show the preview image
-                imgPlaceholder.style.display = 'none'; // Hide the placeholder
+                imgPlaceholder.style.display = 'none';
                 updateSubmitButtonState();
             };
 
@@ -368,15 +348,14 @@ async function createAddModal(data, token) {
         // After submission logic (e.g., API call), clear the form fields
         imageContainer.src = ''
         imageContainer.style.display = 'none';
-        imgPlaceholder.style.display = 'flex'; // Hide the placeholder
-        titleInput.value = '';        // Clear title input
-        categorySelect.value = 1;    // Reset category selection to the first option
-        fileInput.value = '';         // Assuming fileInput is the input element for file uploads
+        imgPlaceholder.style.display = 'flex';
+        titleInput.value = '';
+        categorySelect.value = 1;
+        fileInput.value = '';
         addPhotoModal.remove()
         // addPhotoModal.style.display = 'none';
     })
 
-    // Append the upload area, title input, category input, and submit button to the modal container
     addPhotoModalContainer.appendChild(closeAddPhotoModal);
     addPhotoModalContainer.appendChild(previousAddPhotoModal);
     addPhotoModalContainer.appendChild(modalTitle);
@@ -388,14 +367,21 @@ async function createAddModal(data, token) {
     addPhotoModalContainer.appendChild(separatorLine);
     addPhotoModalContainer.appendChild(submitButton);
 
-    // Append the new modal container to the new modal
     addPhotoModal.appendChild(addPhotoModalContainer);
     addPhotoModal.appendChild(modalBackground);
 
-    // Append the new modal to the body
     document.body.appendChild(addPhotoModal);
 }
 
+/**
+ * Initializes the modal based on the provided boolean value.
+ *
+ * @param {boolean} bool - Determines which modal to create:
+ *                         - If true, calls createAddModal to set up the modal for adding new items.
+ *                         - If false, calls updateModal to display existing gallery items.
+ * 
+ * @returns {Promise<void>} - A promise that resolves when the modal initialization is complete.
+ */
 export async function initializeModal(bool) {
     const token = sessionStorage.getItem("Token");
     const galleryData = await fetchData('works');
@@ -407,12 +393,18 @@ export async function initializeModal(bool) {
     }
 }
 
-// Async function to add a new image to the gallery
+/**
+ * Adds a new image to the gallery.
+ *
+ * @param {Object} tblData - The data for the new image to be added.
+ * @param {string} tblData.imageUrl - The URL of the image.
+ * @param {string} tblData.title - The title of the image.
+ *
+ * @returns {Promise<void>} - A promise that resolves when the image has been added to the gallery.
+ */
 async function addNewImage(tblData) {
-    // Select the gallery container
     const galleryContainer = document.querySelector(".gallery");
 
-    // If gallery container doesn't exist, exit the function early
     if (!galleryContainer) return;
 
     try {
@@ -421,19 +413,16 @@ async function addNewImage(tblData) {
 
         // Helper function to create a new gallery item (figure element)
         function createGalleryItem(data) {
-            // Create a figure element
             const figure = document.createElement('figure');
         
-            // Create and set up the img element
             const img = document.createElement('img');
-            img.src = data.imageUrl;  // Set image source URL
-            img.alt = data.title;     // Set image alt text
+            img.src = data.imageUrl;
+            img.alt = data.title;
+            img.setAttribute("img-id", data.id);
         
-            // Create and set the figcaption (image title)
             const figcaption = document.createElement('figcaption');
             figcaption.textContent = data.title;
         
-            // Append img and figcaption to the figure element
             figure.appendChild(img);
             figure.appendChild(figcaption);
         
@@ -441,12 +430,9 @@ async function addNewImage(tblData) {
             return figure;
         }
 
-        // Create a new gallery item using the provided data
         const figure = createGalleryItem(tblData);
-        // Append the figure to the fragment for efficient DOM insertion
         fragment.appendChild(figure);
 
-        // Append the fragment to the gallery container in one operation
         galleryContainer.appendChild(fragment);
     } catch (error) {
         // Log any errors encountered during the process

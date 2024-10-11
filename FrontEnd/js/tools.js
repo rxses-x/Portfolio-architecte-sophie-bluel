@@ -15,7 +15,6 @@ export async function fetchData(name, options = {}) {
         // Return the fetch response
         return response;
     } catch (error) {
-        // Log any errors encountered during the fetch process
         console.error('Error fetching:', error);
     }
 }
